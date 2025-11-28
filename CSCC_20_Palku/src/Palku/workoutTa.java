@@ -2006,7 +2006,7 @@ public class workoutTa extends JFrame
 			}
 		});
         
-		//END OF TRANSACTION EVENTS
+		//END OF TRANSACTION EVENTS gwapo kaayo ko.
 		
 		
 		
