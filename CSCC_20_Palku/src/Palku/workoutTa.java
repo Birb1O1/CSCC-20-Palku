@@ -74,7 +74,9 @@ public class workoutTa extends JFrame
 	static public String tPassword = "";
 	static public long tAmount = 0;
 	static public String tDate = "";
-	static public String tTitle = "";
+	static public String tWorkout = "";
+	static public String tSets = "";
+	static public String tReps = "";
 	static public String tCategory = "";
 	static public String tMessage = "";
 	static public String currAcc = "";
@@ -95,16 +97,18 @@ public class workoutTa extends JFrame
 	private JLabel dIncor;
 	private JLabel lblNewLabel_6;
 	private JButton addTB;
-	private JTextField aAmount;
+	private JTextField aWeight;
 	private JTextField aDate;
-	private JTextField aTitle;
+	private JTextField aWorkout;
 	private JTextField aMessage;
 	private JButton backB;
-	private JList mSpent;
-	private JList mLoan;
+	private JList mHeight;
+	private JList mGoal;
 	private JLabel lblNewLabel_20;
 	
 	static DefaultListModel<String> lHistory = new DefaultListModel<>();
+	private JTextField aSets;
+	private JTextField aReps;
 	
 	public static void main(String[] args) 
 	{
@@ -678,30 +682,35 @@ public class workoutTa extends JFrame
             {
                 String[] parts = line.split(",");
 
-                if (parts.length >= 4) {
+                if (parts.length >= 6) {
                     String email = parts[0].trim(); // Now checking first column
                     if (email.equalsIgnoreCase(Email.trim())) 
                     {
                     	found = true;
-                    	if (car.equalsIgnoreCase("Cash"))
+                    	if (car.equalsIgnoreCase("Chest"))
                     	{
                     		parts[1] = amount;
-                    		System.out.println("Hi hello Cash");
+                    		System.out.println("Hi hello Chest");
                     	}
-                    	else if (car.equalsIgnoreCase("Spent"))
+                    	else if (car.equalsIgnoreCase("Shoulder"))
                     	{
                     		parts[2] = amount;
-                    		System.out.println("Hi hello Spent");
+                    		System.out.println("Hi hello Shoulder");
                     	}
-                    	else if (car.equalsIgnoreCase("Loan"))
+                    	else if (car.equalsIgnoreCase("Back"))
                     	{
                     		parts[3] = amount;
-                    		System.out.println("Hi hello Loan");
+                    		System.out.println("Hi hello Back");
                     	}
-                    	else if (car.equalsIgnoreCase("Pay Loan"))
+                    	else if (car.equalsIgnoreCase("Legs"))
                     	{
-                    		parts[3] = amount;
-                    		System.out.println("Hi hello Pay Loan");
+                    		parts[4] = amount;
+                    		System.out.println("Hi hello Legs");
+                    	}
+                    	else if (car.equalsIgnoreCase("Core"))
+                    	{
+                    		parts[5] = amount;
+                    		System.out.println("Hi hello Core");
                     	}
                     	
     	                String joiner = String.join(", ", parts);
@@ -1148,15 +1157,15 @@ public class workoutTa extends JFrame
 		contentPane.add(MENU);
 		MENU.setLayout(null);
 		
-		CASHL = new JLabel("CASH");
+		CASHL = new JLabel("Weight");
 		CASHL.setBounds(43, 225, 45, 13);
 		MENU.add(CASHL);
 		
-		SPENTL = new JLabel("SPENT");
+		SPENTL = new JLabel("Height");
 		SPENTL.setBounds(189, 225, 45, 13);
 		MENU.add(SPENTL);
 		
-		LOANL = new JLabel("LOAN");
+		LOANL = new JLabel("Goal");
 		LOANL.setBounds(340, 225, 45, 13);
 		MENU.add(LOANL);
 		
@@ -1164,11 +1173,11 @@ public class workoutTa extends JFrame
 		histB.setBounds(149, 363, 172, 21);
 		MENU.add(histB);
 		
-		lblNewLabel_3 = new JLabel("CASH SAVING APP");
+		lblNewLabel_3 = new JLabel("WORKOUT APP");
 		lblNewLabel_3.setBounds(149, 30, 125, 13);
 		MENU.add(lblNewLabel_3);
 		
-		addTB = new JButton("ADD TRANSACTION");
+		addTB = new JButton("ADD WORKOUT");
 		addTB.setBounds(120, 309, 153, 23);
 		MENU.add(addTB);
 		
@@ -1208,24 +1217,24 @@ public class workoutTa extends JFrame
 		mBday.setBounds(94, 177, 140, 21);
 		MENU.add(mBday);
 		
-		JList mCash = new JList();
-		mCash.setBounds(10, 249, 102, 16);
-		MENU.add(mCash);
+		JList mWeight = new JList();
+		mWeight.setBounds(10, 249, 102, 16);
+		MENU.add(mWeight);
 		
-		mSpent = new JList();
-		mSpent.setBounds(131, 249, 143, 16);
-		MENU.add(mSpent);
+		mHeight = new JList();
+		mHeight.setBounds(131, 249, 143, 16);
+		MENU.add(mHeight);
 		
-		mLoan = new JList();
-		mLoan.setBounds(282, 249, 136, 16);
-		MENU.add(mLoan);
+		mGoal = new JList();
+		mGoal.setBounds(282, 249, 136, 16);
+		MENU.add(mGoal);
 		
 		HISTORY = new JPanel();
 		HISTORY.setBounds(10, 10, 440, 543);
 		contentPane.add(HISTORY);
 		HISTORY.setLayout(null);
 		
-		lblNewLabel_20 = new JLabel("Transaction History");
+		lblNewLabel_20 = new JLabel("Workout History");
 		lblNewLabel_20.setBounds(167, 22, 202, 14);
 		HISTORY.add(lblNewLabel_20);
 		
@@ -1245,14 +1254,14 @@ public class workoutTa extends JFrame
 		contentPane.add(ADD);
 		ADD.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Enter amount");
-		lblNewLabel.setBounds(44, 167, 188, 13);
-		ADD.add(lblNewLabel);
+		JLabel weight = new JLabel("Enter weight");
+		weight.setBounds(33, 188, 188, 13);
+		ADD.add(weight);
 		
-		aAmount = new JTextField();
-		aAmount.setBounds(148, 161, 96, 19);
-		ADD.add(aAmount);
-		aAmount.setColumns(10);
+		aWeight = new JTextField();
+		aWeight.setBounds(148, 184, 96, 19);
+		ADD.add(aWeight);
+		aWeight.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Category");
 		lblNewLabel_1.setBounds(33, 103, 73, 13);
@@ -1267,25 +1276,25 @@ public class workoutTa extends JFrame
 		lblNewLabel_2.setBounds(44, 50, 45, 13);
 		ADD.add(lblNewLabel_2);
 		
-		aTitle = new JTextField();
-		aTitle.setBounds(148, 220, 96, 19);
-		ADD.add(aTitle);
-		aTitle.setColumns(10);
+		aWorkout = new JTextField();
+		aWorkout.setBounds(148, 143, 96, 19);
+		ADD.add(aWorkout);
+		aWorkout.setColumns(10);
 		
-		JLabel lblNewLabel_14 = new JLabel("Expense title");
-		lblNewLabel_14.setBounds(33, 223, 180, 16);
+		JLabel lblNewLabel_14 = new JLabel("Workout");
+		lblNewLabel_14.setBounds(33, 145, 180, 16);
 		ADD.add(lblNewLabel_14);
 		
 		JLabel lblNewLabel_15 = new JLabel("Add message");
-		lblNewLabel_15.setBounds(33, 282, 211, 19);
+		lblNewLabel_15.setBounds(33, 299, 211, 19);
 		ADD.add(lblNewLabel_15);
 		
 		aMessage = new JTextField();
-		aMessage.setBounds(148, 279, 221, 94);
+		aMessage.setBounds(148, 299, 221, 94);
 		ADD.add(aMessage);
 		aMessage.setColumns(10);
 		
-		JButton addTransaction = new JButton("Add transaction");
+		JButton addTransaction = new JButton("Add workout");
 		addTransaction.setBounds(115, 431, 148, 21);
 		ADD.add(addTransaction);
 		
@@ -1294,7 +1303,7 @@ public class workoutTa extends JFrame
 		ADD.add(backB);
 		
 		JComboBox aCategory = new JComboBox();
-		aCategory.setModel(new DefaultComboBoxModel(new String[] {"Cash", "Spent", "Loan", "Pay Loan"}));
+		aCategory.setModel(new DefaultComboBoxModel(new String[] {"Chest", "Shoulder", "Back", "Legs", "Core"}));
 		aCategory.setBounds(148, 98, 96, 22);
 		ADD.add(aCategory);
 		aCategory.setSelectedIndex(-1);
@@ -1302,6 +1311,24 @@ public class workoutTa extends JFrame
 		JLabel errorInput = new JLabel("Please enter a proper input.");
 		errorInput.setBounds(133, 391, 266, 29);
 		ADD.add(errorInput);
+		
+		JLabel EnterSets = new JLabel("Enter sets");
+		EnterSets.setBounds(33, 225, 188, 13);
+		ADD.add(EnterSets);
+		
+		aSets = new JTextField();
+		aSets.setColumns(10);
+		aSets.setBounds(148, 221, 96, 19);
+		ADD.add(aSets);
+		
+		JLabel lblEnterReps_2 = new JLabel("Enter reps");
+		lblEnterReps_2.setBounds(33, 261, 188, 13);
+		ADD.add(lblEnterReps_2);
+		
+		aReps = new JTextField();
+		aReps.setColumns(10);
+		aReps.setBounds(148, 257, 96, 19);
+		ADD.add(aReps);
 		errorInput.setVisible(false);
 		
 		
@@ -1649,17 +1676,17 @@ public class workoutTa extends JFrame
 					lCash.clear();
 					Long qCash = retrieveCash(tGmail);
 					lCash.addElement(qCash);
-					mCash.setModel(lCash);
+					mWeight.setModel(lCash);
 					
 					lSpent.clear();
 					Long qSpent = retrieveSpent(tGmail);
 					lSpent.addElement(qSpent);
-					mSpent.setModel(lSpent);
+					mHeight.setModel(lSpent);
 					
 					lLoan.clear();
 					Long qLoan = retrieveLoan(tGmail);
 					lLoan.addElement(qLoan);
-					mLoan.setModel(lLoan);
+					mGoal.setModel(lLoan);
     				
 					currAcc = tGmail;
 					
@@ -1773,7 +1800,7 @@ public class workoutTa extends JFrame
             }
         });
 		
-       	aAmount.getDocument().addDocumentListener(new DocumentListener() {
+       	aWeight.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) 
             {
@@ -1791,7 +1818,7 @@ public class workoutTa extends JFrame
             }
 
             private long updateLong() {
-                String text = aAmount.getText();
+                String text = aWeight.getText();
                 try {
                     // Extract the first 11 digits from the input
                     String first11Digits = text.substring(0, Math.min(text.length(), 11));
@@ -1817,7 +1844,7 @@ public class workoutTa extends JFrame
             }
         });
        	
-        aTitle.getDocument().addDocumentListener(new DocumentListener() {
+        aWorkout.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateLabel();
@@ -1835,9 +1862,58 @@ public class workoutTa extends JFrame
 
             private void updateLabel()  
             {
-            	tTitle = aTitle.getText();
+            	tWorkout = aWorkout.getText();
                 // Do something with the text here
-                System.out.println("Title: " + tTitle);
+                System.out.println("Title: " + tWorkout);
+            }
+        });
+        
+        
+        aSets.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+            	tSets = aSets.getText();
+                // Do something with the text here
+                System.out.println("Title: " + tSets);
+            }
+        });
+        
+        aReps.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+            	tReps = aReps.getText();
+                // Do something with the text here
+                System.out.println("Title: " + tReps);
             }
         });
         
@@ -1906,7 +1982,7 @@ public class workoutTa extends JFrame
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				 if(tCategory.trim().isEmpty() || tDate.trim().isEmpty() || tAmount == 0 || tTitle.trim().isEmpty() || tMessage.trim().isEmpty())
+				 if(tCategory.trim().isEmpty() || tDate.trim().isEmpty() || tAmount == 0 || tWorkout.trim().isEmpty() || tMessage.trim().isEmpty())
 				 {
 					 errorInput.setVisible(true);
 				 }
@@ -1959,8 +2035,8 @@ public class workoutTa extends JFrame
 					 }
 					 
 					 String distribute = Long.toString(qAmount);
-					 // Date - Category - Title - Message - Amount
-					 String combine = tDate + "/ " + tCategory + "/ " + tTitle + "/ " + tMessage + "/ " + distribute;
+					 // Date - Category - Workout - Sets - Reps - Message - Weight
+					 String combine = tDate + "/ " + tCategory + "/ " + tWorkout + "/ " + tSets + "/ " + tReps + "/ " + tMessage + "/ " + distribute;
 					 
 					 
 					 addToHistory(currAcc, combine);
@@ -1970,38 +2046,42 @@ public class workoutTa extends JFrame
 					 lCash.clear();
 					 qCash = retrieveCash(currAcc);
 					 lCash.addElement(qCash);
-					 mCash.setModel(lCash);
+					 mWeight.setModel(lCash);
 					 System.out.println(lCash);
 					 
 					 lSpent.clear();
 					 qSpent = retrieveSpent(currAcc);
 					 lSpent.addElement(qSpent);
-					 mSpent.setModel(lSpent);
+					 mHeight.setModel(lSpent);
 					 System.out.println(lSpent);
 					 
 					 lLoan.clear();
 					 qLoan = retrieveLoan(currAcc);
 					 lLoan.addElement(qLoan);
-					 mLoan.setModel(lLoan);
+					 mGoal.setModel(lLoan);
 					 System.out.println(lLoan);
 					 
 					 lLoan.clear();
 					 qPayLoan = retrieveLoan(currAcc);
 					 lLoan.addElement(qPayLoan);
-					 mLoan.setModel(lLoan);
+					 mGoal.setModel(lLoan);
 					 System.out.println(lLoan);
 					 
 					 tDate = "";
 					 tCategory = "";
-					 tTitle = "";
+					 tWorkout = "";
+					 tSets = "";
+					 tReps = "";
 					 tMessage = "";
 					 tAmount = 0;
 					 
 					 aDate.setText("");
 					 aCategory.setSelectedIndex(-1);
-					 aTitle.setText("");
+					 aWorkout.setText("");
+					 aSets.setText("");
+					 aReps.setText("");
 					 aMessage.setText("");
-					 aAmount.setText("");
+					 aWeight.setText("");
 				}
 			}
 		});
