@@ -72,16 +72,27 @@ public class workoutTa extends JFrame
 	static public Character tGender = null;
 	static public String tBirthday = "";
 	static public String tPassword = "";
-	static public long tAmount = 0;
+	static public long tWeightKG = 0;
+	static public long tHeightCM = 0;
+	
+	
+	static public long tWeight = 0;
 	static public String tDate = "";
 	static public String tWorkout = "";
 	static public String tSets = "";
 	static public String tReps = "";
 	static public String tCategory = "";
 	static public String tMessage = "";
-	static public String currAcc = "";
 	static public long qAmount = 0;
-
+	
+	
+	static public String currAcc = "";
+	
+	static public String[] chestWorkout = {"Pushups", "Bench Press", "Chest Flies"};
+	static public String[] shoulderWorkout = {"Dumbbell Shrugs", "Lateral raises", "Overhead press"};
+	static public String[] backWorkout = {"Lat pulldown", "Rear delts fly", "Rows"};
+	static public String[] legWorkout = {"Leg press", "Squats", "Quad Extension"};
+	static public String[] coreWorkout = {"Crunches", "Plank", "Leg Raises"};
 	
     public boolean realNum = true;
     public boolean realNum1 = true;
@@ -109,6 +120,8 @@ public class workoutTa extends JFrame
 	static DefaultListModel<String> lHistory = new DefaultListModel<>();
 	private JTextField aSets;
 	private JTextField aReps;
+	private JTextField heightCM;
+	private JTextField weightKG;
 	
 	public static void main(String[] args) 
 	{
@@ -138,7 +151,8 @@ public class workoutTa extends JFrame
 	
 	// METHODS ============================================================================================
 	
-	static void addUser(String name, String gmail, String num, String gen, String bday, String pass)
+	// Parameter (Name, gmail, number, gender, bday, pass, weight, height)
+	static void addUser(String name, String gmail, String num, String gen, String bday, String pass, String weight, String height)
 	{
 		String uName = name;
 		String uGmail = gmail;
@@ -146,8 +160,10 @@ public class workoutTa extends JFrame
 		String uGender = gen;
 		String uBday = bday;
 		String uPass = pass;
+		String uWeight = weight;
+		String uHeight = height;
 		
-		String type = uGmail + ", " + uName  + ", " + uNum + ", " + uGender + ", " + uBday + ", " + uPass;
+		String type = uGmail + ", " + uName  + ", " + uNum + ", " + uGender + ", " + uBday + ", " + uWeight + ", " + uHeight + ", " + uPass;
 		
 		try(FileWriter writes = new FileWriter(accountInfo, true))
 		{	
@@ -168,7 +184,7 @@ public class workoutTa extends JFrame
 		
 		File uDataBase = new File(newUser);
 		
-		// GMAIL - CASH - SPENT - LOAN
+		// GMAIL - Weight - Height - Goal
 		String type = tGmail + ", 0, 0, 0"; 
 		
 		try(FileWriter writes = new FileWriter(newUser, true))
@@ -240,10 +256,10 @@ public class workoutTa extends JFrame
             {
                 String[] parts = line.split(",");
 
-                if (parts.length >= 6) 
+                if (parts.length >= 8) 
                 {
                     String email = parts[0].trim();
-                    String pass = parts[5].trim();
+                    String pass = parts[7].trim();
                     if (email.equalsIgnoreCase(mGmail.trim()) && pass.equals(mPass)) 
                     {
                         return true; // Both valid
@@ -876,9 +892,11 @@ public class workoutTa extends JFrame
 		return null;
 	}
 	
-	static Long retrieveCash(String Email)
+	static Long retrieveWeight(String Email)
 	{
 		File z = new File(Email + ".txt");
+		
+		// GMAIL - Weight - Height - Goal
 		
 		try(BufferedReader reader = new BufferedReader(new FileReader(z)))
 		{
@@ -890,10 +908,10 @@ public class workoutTa extends JFrame
                 if (parts.length >= 4) 
                 {
                 	String email = parts[0].trim();
-                    String cash = parts[1].trim(); // Now checking first column
+                    String weight = parts[1].trim(); // Now checking first column
                     if(email.equalsIgnoreCase(Email.trim()))
                     {
-                    	Long rNum = Long.parseLong(cash);
+                    	Long rNum = Long.parseLong(weight);
                     	return rNum;
                     }
                 }
@@ -907,9 +925,11 @@ public class workoutTa extends JFrame
 		return null;
 	}
 	
-	static Long retrieveSpent(String Email)
+	static Long retrieveHeight(String Email)
 	{
 		File z = new File(Email + ".txt");
+		
+		// GMAIL - Weight - Height - Goal
 		
 		try(BufferedReader reader = new BufferedReader(new FileReader(z)))
 		{
@@ -921,10 +941,10 @@ public class workoutTa extends JFrame
                 if (parts.length >= 4) 
                 {
                 	String email = parts[0].trim();
-                    String spent = parts[2].trim(); // Now checking first column
+                    String height = parts[2].trim(); // Now checking first column
                     if(email.equalsIgnoreCase(Email.trim()))
                     {
-                    	Long rNum = Long.parseLong(spent);
+                    	Long rNum = Long.parseLong(height);
                     	return rNum;
                     }
                 }
@@ -938,9 +958,11 @@ public class workoutTa extends JFrame
 		return null;
 	}
 	
-	static Long retrieveLoan(String Email)
+	static Long retrieveGoal(String Email)
 	{
 		File z = new File(Email + ".txt");
+		
+		// GMAIL - Weight - Height - Goal
 		
 		try(BufferedReader reader = new BufferedReader(new FileReader(z)))
 		{
@@ -952,10 +974,10 @@ public class workoutTa extends JFrame
                 if (parts.length >= 3) 
                 {
                 	String email = parts[0].trim();
-                    String loan = parts[3].trim(); // Now checking first column
+                    String goal = parts[3].trim(); // Now checking first column
                     if(email.equalsIgnoreCase(Email.trim()))
                     {
-                    	Long rNum = Long.parseLong(loan);
+                    	Long rNum = Long.parseLong(goal);
                     	return rNum;
                     }
                 }
@@ -1011,12 +1033,12 @@ public class workoutTa extends JFrame
 		DefaultListModel<String> lEmail = new DefaultListModel<>();
 		DefaultListModel<Long> lNum = new DefaultListModel<>();
 		DefaultListModel<String> lBday = new DefaultListModel<>();
-		DefaultListModel<Long> lCash = new DefaultListModel<>();
-		lCash.clear();
-		DefaultListModel<Long> lSpent = new DefaultListModel<>();
-		lSpent.clear();
-		DefaultListModel<Long> lLoan = new DefaultListModel<>();
-		lLoan.clear();
+		DefaultListModel<Long> lWeight = new DefaultListModel<>();
+		lWeight.clear();
+		DefaultListModel<Long> lHeight = new DefaultListModel<>();
+		lHeight.clear();
+		DefaultListModel<Long> lGoal = new DefaultListModel<>();
+		lGoal.clear();
 		
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1029,7 +1051,7 @@ public class workoutTa extends JFrame
 		contentPane.setLayout(null);
 		
 		REGISTER = new JPanel();
-		REGISTER.setBounds(10, 10, 440, 543);
+		REGISTER.setBounds(10, 10, 1, 543);
 		contentPane.add(REGISTER);
 		REGISTER.setLayout(null);
 		
@@ -1042,33 +1064,33 @@ public class workoutTa extends JFrame
 		REGISTER.add(lblNewLabel_5);
 		
 		lblNewLabel_7 = new JLabel("PASSWORD");
-		lblNewLabel_7.setBounds(76, 312, 113, 13);
+		lblNewLabel_7.setBounds(37, 363, 75, 13);
 		REGISTER.add(lblNewLabel_7);
 		
 		lblNewLabel_8 = new JLabel("NUMBER");
-		lblNewLabel_8.setBounds(52, 140, 85, 13);
+		lblNewLabel_8.setBounds(52, 125, 85, 13);
 		REGISTER.add(lblNewLabel_8);
 		
 		lblNewLabel_9 = new JLabel("BIRTHDAY");
-		lblNewLabel_9.setBounds(62, 196, 85, 13);
+		lblNewLabel_9.setBounds(37, 171, 85, 13);
 		REGISTER.add(lblNewLabel_9);
 		
 		JRadioButton male = new JRadioButton("MALE");
 		buttonGroup.add(male);
-		male.setBounds(62, 268, 103, 21);
+		male.setBounds(37, 309, 103, 21);
 		REGISTER.add(male);
 		
 		JRadioButton female = new JRadioButton("FEMALE");
 		buttonGroup.add(female);
-		female.setBounds(172, 268, 103, 21);
+		female.setBounds(161, 309, 103, 21);
 		REGISTER.add(female);
 		
 		JLabel lblNewLabel_10 = new JLabel("GENDER");
-		lblNewLabel_10.setBounds(92, 236, 113, 13);
+		lblNewLabel_10.setBounds(27, 289, 113, 13);
 		REGISTER.add(lblNewLabel_10);
 		
 		JButton registB1 = new JButton("REGISTER");
-		registB1.setBounds(173, 418, 117, 21);
+		registB1.setBounds(147, 461, 117, 21);
 		REGISTER.add(registB1);
 		
 		JLabel lblNewLabel_11 = new JLabel("REGISTER");
@@ -1086,35 +1108,55 @@ public class workoutTa extends JFrame
 		gmail.setColumns(10);
 		
 		pNum = new JTextField();
-		pNum.setBounds(147, 136, 252, 19);
+		pNum.setBounds(147, 121, 252, 19);
 		REGISTER.add(pNum);
 		pNum.setColumns(10);
 		
 		bday = new JTextField();
-		bday.setBounds(147, 192, 241, 19);
+		bday.setBounds(147, 167, 241, 19);
 		REGISTER.add(bday);
 		bday.setColumns(10);
 		
 		pass = new JPasswordField();
-		pass.setBounds(107, 336, 215, 20);
+		pass.setBounds(133, 359, 215, 20);
 		REGISTER.add(pass);
 		
 		JLabel errorNum = new JLabel("Please enter your input correctly.");
-		errorNum.setBounds(107, 393, 228, 14);
+		errorNum.setBounds(94, 443, 228, 14);
 		REGISTER.add(errorNum);
 		
 		logPage = new JButton("LOGIN PAGE");
-		logPage.setBounds(173, 456, 149, 23);
+		logPage.setBounds(147, 493, 149, 23);
 		REGISTER.add(logPage);
 		
 		JLabel emailExists = new JLabel("EMAIL ALREADY EXISTS");
-		emailExists.setBounds(119, 367, 156, 14);
+		emailExists.setBounds(119, 429, 156, 14);
 		REGISTER.add(emailExists);
+		
+		JLabel lblNewLabel_9_1 = new JLabel("HEIGHT (Cm)");
+		lblNewLabel_9_1.setBounds(27, 209, 85, 13);
+		REGISTER.add(lblNewLabel_9_1);
+		
+		JLabel lblNewLabel_9_1_1 = new JLabel("WEIGHT (Kg)");
+		lblNewLabel_9_1_1.setBounds(27, 245, 85, 13);
+		REGISTER.add(lblNewLabel_9_1_1);
+		
+		heightCM = new JTextField();
+		heightCM.setColumns(10);
+		heightCM.setBounds(143, 205, 241, 19);
+		REGISTER.add(heightCM);
+		
+		weightKG = new JTextField();
+		weightKG.setColumns(10);
+		weightKG.setBounds(123, 241, 241, 19);
+		REGISTER.add(weightKG);
 		errorNum.setVisible(false);
 		emailExists.setVisible(false);
 		
+		// Register end ===============================================
+		
 		LOGIN = new JPanel();
-		LOGIN.setBounds(10, 10, 440, 543);
+		LOGIN.setBounds(10, 10, 1, 543);
 		contentPane.add(LOGIN);
 		LOGIN.setLayout(null);
 		
@@ -1152,8 +1194,10 @@ public class workoutTa extends JFrame
 		LOGIN.add(lblNewLabel_6);
 		dIncor.setVisible(false);
 		
+		//Login page end ======================================================
+		
 		JPanel MENU = new JPanel();
-		MENU.setBounds(10, 10, 440, 543);
+		MENU.setBounds(10, 10, 1, 543);
 		contentPane.add(MENU);
 		MENU.setLayout(null);
 		
@@ -1229,8 +1273,10 @@ public class workoutTa extends JFrame
 		mGoal.setBounds(282, 249, 136, 16);
 		MENU.add(mGoal);
 		
+		//Menu page end ========================================================
+		
 		HISTORY = new JPanel();
-		HISTORY.setBounds(10, 10, 440, 543);
+		HISTORY.setBounds(10, 10, 1, 543);
 		contentPane.add(HISTORY);
 		HISTORY.setLayout(null);
 		
@@ -1249,17 +1295,19 @@ public class workoutTa extends JFrame
 		hBack.setBounds(341, 11, 89, 23);
 		HISTORY.add(hBack);
 		
+		// History page end ===============================================================
+		
 		JPanel ADD = new JPanel();
 		ADD.setBounds(10, 10, 440, 543);
 		contentPane.add(ADD);
 		ADD.setLayout(null);
 		
 		JLabel weight = new JLabel("Enter weight");
-		weight.setBounds(33, 188, 188, 13);
+		weight.setBounds(33, 238, 73, 13);
 		ADD.add(weight);
 		
 		aWeight = new JTextField();
-		aWeight.setBounds(148, 184, 96, 19);
+		aWeight.setBounds(148, 234, 96, 19);
 		ADD.add(aWeight);
 		aWeight.setColumns(10);
 		
@@ -1277,26 +1325,30 @@ public class workoutTa extends JFrame
 		ADD.add(lblNewLabel_2);
 		
 		aWorkout = new JTextField();
-		aWorkout.setBounds(148, 143, 96, 19);
+		aWorkout.setBounds(148, 160, 96, 19);
 		ADD.add(aWorkout);
 		aWorkout.setColumns(10);
 		
 		JLabel lblNewLabel_14 = new JLabel("Workout");
-		lblNewLabel_14.setBounds(33, 145, 180, 16);
+		lblNewLabel_14.setBounds(33, 162, 51, 16);
 		ADD.add(lblNewLabel_14);
 		
 		JLabel lblNewLabel_15 = new JLabel("Add message");
-		lblNewLabel_15.setBounds(33, 299, 211, 19);
+		lblNewLabel_15.setBounds(33, 383, 211, 19);
 		ADD.add(lblNewLabel_15);
 		
 		aMessage = new JTextField();
-		aMessage.setBounds(148, 299, 221, 94);
+		aMessage.setBounds(148, 377, 221, 94);
 		ADD.add(aMessage);
 		aMessage.setColumns(10);
 		
-		JButton addTransaction = new JButton("Add workout");
-		addTransaction.setBounds(115, 431, 148, 21);
-		ADD.add(addTransaction);
+		JButton finishWorkout = new JButton("Finish Workout");
+		finishWorkout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		finishWorkout.setBounds(267, 499, 148, 21);
+		ADD.add(finishWorkout);
 		
 		backB = new JButton("BACK");
 		backB.setBounds(330, 10, 85, 21);
@@ -1309,29 +1361,33 @@ public class workoutTa extends JFrame
 		aCategory.setSelectedIndex(-1);
 		
 		JLabel errorInput = new JLabel("Please enter a proper input.");
-		errorInput.setBounds(133, 391, 266, 29);
+		errorInput.setBounds(163, 470, 135, 29);
 		ADD.add(errorInput);
 		
 		JLabel EnterSets = new JLabel("Enter sets");
-		EnterSets.setBounds(33, 225, 188, 13);
+		EnterSets.setBounds(44, 338, 61, 15);
 		ADD.add(EnterSets);
 		
 		aSets = new JTextField();
 		aSets.setColumns(10);
-		aSets.setBounds(148, 221, 96, 19);
+		aSets.setBounds(116, 335, 96, 19);
 		ADD.add(aSets);
 		
 		JLabel lblEnterReps_2 = new JLabel("Enter reps");
-		lblEnterReps_2.setBounds(33, 261, 188, 13);
+		lblEnterReps_2.setBounds(240, 339, 61, 13);
 		ADD.add(lblEnterReps_2);
 		
 		aReps = new JTextField();
 		aReps.setColumns(10);
-		aReps.setBounds(148, 257, 96, 19);
+		aReps.setBounds(311, 335, 96, 19);
 		ADD.add(aReps);
+		
+		JButton addWorkout = new JButton("Add Workout");
+		addWorkout.setBounds(44, 498, 148, 21);
+		ADD.add(addWorkout);
 		errorInput.setVisible(false);
 		
-		
+		// Add page end =====================================
 		
 		// STARTING EVENTS
 		LOGIN.setVisible(false);
@@ -1454,6 +1510,94 @@ public class workoutTa extends JFrame
             }
         });
        	
+       	weightKG.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) 
+            {
+                updateLong();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLong();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLong();
+            }
+
+            private long updateLong() {
+                String text = weightKG.getText();
+                try {
+                    // Extract the first 11 digits from the input
+                    String first11Digits = text.substring(0, Math.min(text.length(), 11));
+
+                    Long number = Long.parseLong(first11Digits);
+
+                    // Store the parsed integer in studentPhoneNum
+                    tWeightKG = number;
+
+                    // Do something with the integer
+                    System.out.println("Integer: " + tWeightKG);
+                    realNum = true;
+                    System.out.println(realNum);
+
+                    return number; // Return the parsed integer
+                } catch (NumberFormatException ex) {
+                    // Handle the exception if the input is not a valid integer
+                    System.out.println("Invalid integer input: " + text);
+                    realNum = false;
+                    System.out.println(realNum);
+                    return 0; // Return a default value or handle the error appropriately
+                }
+            }
+        });
+       	
+       	heightCM.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) 
+            {
+                updateLong();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLong();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLong();
+            }
+
+            private long updateLong() {
+                String text = heightCM.getText();
+                try {
+                    // Extract the first 11 digits from the input
+                    String first11Digits = text.substring(0, Math.min(text.length(), 11));
+
+                    Long number = Long.parseLong(first11Digits);
+
+                    // Store the parsed integer in studentPhoneNum
+                    tHeightCM = number;
+
+                    // Do something with the integer
+                    System.out.println("Integer: " + tHeightCM);
+                    realNum = true;
+                    System.out.println(realNum);
+
+                    return number; // Return the parsed integer
+                } catch (NumberFormatException ex) {
+                    // Handle the exception if the input is not a valid integer
+                    System.out.println("Invalid integer input: " + text);
+                    realNum = false;
+                    System.out.println(realNum);
+                    return 0; // Return a default value or handle the error appropriately
+                }
+            }
+        });
+       	
         bday.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -1509,7 +1653,7 @@ public class workoutTa extends JFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				File accStore = new File(accountInfo);
-				if (tName.trim().isEmpty() || tGmail.trim().isEmpty() || tNumber == 0 || tGender == null || tBirthday.trim().isEmpty() || tPassword.trim().isEmpty())
+				if (tName.trim().isEmpty() || tGmail.trim().isEmpty() || tNumber == 0 || tGender == null || tBirthday.trim().isEmpty() || tHeightCM == 0 || tWeightKG == 0 || tPassword.trim().isEmpty())
 
 				{
 					errorNum.setVisible(true);
@@ -1534,21 +1678,29 @@ public class workoutTa extends JFrame
 							createAccHist(tGmail);
 							
 							String cNum = Long.toString(tNumber);
+							String cWeight = Long.toString(tWeightKG);
+							String cHeight = Long.toString(tHeightCM);
 							String cGen = Character.toString(tGender);
 							
-							addUser(tName, tGmail, cNum, cGen, tBirthday, tPassword);
+							// Parameter (Name, gmail, number, gender, bday, pass, weight, height)
+							addUser(tName, tGmail, cNum, cGen, tBirthday, tPassword, cWeight, cHeight);
 							
 							name.setText("");
 							gmail.setText("");
 							pNum.setText("");
 							bday.setText("");
 							pass.setText("");
+							weightKG.setText("");
+							heightCM.setText("");
 							
 							tName = "";
 							tGmail = "";
 							tNumber = 0;
 							tBirthday = "";
 							tPassword = "";
+							tWeightKG = 0;
+							tHeightCM = 0;
+							
 	
 							errorNum.setVisible(false);
 						}
@@ -1579,6 +1731,8 @@ public class workoutTa extends JFrame
 				pNum.setText("");
 				bday.setText("");
 				pass.setText("");
+				weightKG.setText("");
+				heightCM.setText("");
 			}
 		});
 		
@@ -1673,20 +1827,20 @@ public class workoutTa extends JFrame
 					lBday.addElement(qBday);
 					mBday.setModel(lBday);
 					
-					lCash.clear();
-					Long qCash = retrieveCash(tGmail);
-					lCash.addElement(qCash);
-					mWeight.setModel(lCash);
+					lWeight.clear();
+					Long qWeight = retrieveWeight(tGmail);
+					lWeight.addElement(qWeight);
+					mWeight.setModel(lWeight);
 					
-					lSpent.clear();
-					Long qSpent = retrieveSpent(tGmail);
-					lSpent.addElement(qSpent);
-					mHeight.setModel(lSpent);
+					lHeight.clear();
+					Long qHeight = retrieveHeight(tGmail);
+					lHeight.addElement(qHeight);
+					mHeight.setModel(lHeight);
 					
-					lLoan.clear();
-					Long qLoan = retrieveLoan(tGmail);
-					lLoan.addElement(qLoan);
-					mGoal.setModel(lLoan);
+					lGoal.clear();
+					Long qGoal = retrieveGoal(tGmail);
+					lGoal.addElement(qGoal);
+					mGoal.setModel(lGoal);
     				
 					currAcc = tGmail;
 					
@@ -1698,6 +1852,8 @@ public class workoutTa extends JFrame
 					tNumber = 0;
 					tBirthday = "";
 					tPassword = "";
+					tWeightKG = 0;
+					tHeightCM = 0;
 				}
 				else
 				{
@@ -1826,10 +1982,10 @@ public class workoutTa extends JFrame
                     Long number = Long.parseLong(first11Digits);
 
                     // Store the parsed integer in studentPhoneNum
-                    tAmount = number;
+                    tWeight = number;
 
                     // Do something with the amount
-                    System.out.println("Amount: " + tAmount);
+                    System.out.println("Amount: " + tWeight);
                     realNum = true;
                     System.out.println(realNum);
 
@@ -1950,39 +2106,42 @@ public class workoutTa extends JFrame
 					int selectedIndex = aCategory.getSelectedIndex();
 					if(selectedIndex == 0)
 					{
-						System.out.println("Cash");
-						tCategory = "Cash";
-						
+						System.out.println("Chest");
+						tCategory = "Chest";
 					}
 					
 					else if(selectedIndex == 1)
 					{
-						System.out.println("Spent");
-						tCategory = "Spent";
-						
+						System.out.println("Shoulder");
+						tCategory = "Shoulder";
 					}
 					
 					else if(selectedIndex == 2)
 					{
-						System.out.println("Loan");
-						tCategory = "Loan";
+						System.out.println("Back");
+						tCategory = "Back";
 						
 					}
 					else if(selectedIndex == 3)
 					{
-						System.out.println("Pay Loan");
-						tCategory = "Pay Loan";
+						System.out.println("Legs");
+						tCategory = "Legs";
+					}
+					else if(selectedIndex == 4)
+					{
+						System.out.println("Core");
+						tCategory = "Legs";
 					}
 				}
 			}
 		});
         
-		addTransaction.addMouseListener(new MouseAdapter() 
+		finishWorkout.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				 if(tCategory.trim().isEmpty() || tDate.trim().isEmpty() || tAmount == 0 || tWorkout.trim().isEmpty() || tMessage.trim().isEmpty())
+				 if(tCategory.trim().isEmpty() || tDate.trim().isEmpty() || tWeight == 0 || tWorkout.trim().isEmpty() || tSets.trim().isEmpty() || tReps.trim().isEmpty() || tMessage.trim().isEmpty())
 				 {
 					 errorInput.setVisible(true);
 				 }
@@ -1991,7 +2150,7 @@ public class workoutTa extends JFrame
 					 MENU.setVisible(true);
 					 ADD.setVisible(false);
 					 
-					 String convert = Long.toString(tAmount);
+					 String convert = Long.toString(tWeight);
 					 long qCash = 0;
 					 long qSpent = 0;
 					 long qLoan = 0;
@@ -1999,7 +2158,7 @@ public class workoutTa extends JFrame
 					 
 					 if(tCategory.equalsIgnoreCase("Cash"))
 					 {
-						 lCash.clear();
+						 lWeight.clear();
 						 System.out.println("tCash");
 						 
 						 qCash = addToCash(currAcc, convert);
@@ -2008,7 +2167,7 @@ public class workoutTa extends JFrame
 					 }
 					 else if(tCategory.equalsIgnoreCase("Spent"))
 					 {
-						 lSpent.clear();
+						 lHeight.clear();
 						 System.out.println("tCat");
 						 
 						 qSpent = addToSpent(currAcc, convert);
@@ -2017,7 +2176,7 @@ public class workoutTa extends JFrame
 					 }
 					 else if(tCategory.equalsIgnoreCase("Loan"))
 					 {
-						 lLoan.clear();
+						 lGoal.clear();
 						 System.out.println("tLoan");
 						 
 						 qLoan = addToLoan(currAcc, convert);
@@ -2026,7 +2185,7 @@ public class workoutTa extends JFrame
 					 }
 					 else if(tCategory.equalsIgnoreCase("Pay Loan"))
 					 {
-						 lLoan.clear();
+						 lGoal.clear();
 						 System.out.println("tPayloan");
 	
 						 qPayLoan = payLoan(currAcc, convert);
@@ -2043,29 +2202,29 @@ public class workoutTa extends JFrame
 					 updateCheckCategory(currAcc, tCategory, distribute);
 					 
 					 
-					 lCash.clear();
-					 qCash = retrieveCash(currAcc);
-					 lCash.addElement(qCash);
-					 mWeight.setModel(lCash);
-					 System.out.println(lCash);
+					 lWeight.clear();
+					 qCash = retrieveWeight(currAcc);
+					 lWeight.addElement(qCash);
+					 mWeight.setModel(lWeight);
+					 System.out.println(lWeight);
 					 
-					 lSpent.clear();
-					 qSpent = retrieveSpent(currAcc);
-					 lSpent.addElement(qSpent);
-					 mHeight.setModel(lSpent);
-					 System.out.println(lSpent);
+					 lHeight.clear();
+					 qSpent = retrieveHeight(currAcc);
+					 lHeight.addElement(qSpent);
+					 mHeight.setModel(lHeight);
+					 System.out.println(lHeight);
 					 
-					 lLoan.clear();
-					 qLoan = retrieveLoan(currAcc);
-					 lLoan.addElement(qLoan);
-					 mGoal.setModel(lLoan);
-					 System.out.println(lLoan);
+					 lGoal.clear();
+					 qLoan = retrieveGoal(currAcc);
+					 lGoal.addElement(qLoan);
+					 mGoal.setModel(lGoal);
+					 System.out.println(lGoal);
 					 
-					 lLoan.clear();
-					 qPayLoan = retrieveLoan(currAcc);
-					 lLoan.addElement(qPayLoan);
-					 mGoal.setModel(lLoan);
-					 System.out.println(lLoan);
+					 lGoal.clear();
+					 qPayLoan = retrieveGoal(currAcc);
+					 lGoal.addElement(qPayLoan);
+					 mGoal.setModel(lGoal);
+					 System.out.println(lGoal);
 					 
 					 tDate = "";
 					 tCategory = "";
@@ -2073,7 +2232,7 @@ public class workoutTa extends JFrame
 					 tSets = "";
 					 tReps = "";
 					 tMessage = "";
-					 tAmount = 0;
+					 tWeight = 0;
 					 
 					 aDate.setText("");
 					 aCategory.setSelectedIndex(-1);
