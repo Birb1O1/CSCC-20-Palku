@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -40,6 +41,7 @@ import java.util.Date;
 
 public class workoutTa extends JFrame 
 {
+	private CardLayout cardlayout;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -98,7 +100,6 @@ public class workoutTa extends JFrame
     public boolean realNum1 = true;
     public boolean gender = true;
     private JPasswordField pass;
-    private final ButtonGroup buttonGroup = new ButtonGroup();
     
 	static String accountInfo = "infoStorage.txt";
 	static String tempGrado = "tempInfoStore.txt";
@@ -1025,10 +1026,17 @@ public class workoutTa extends JFrame
 		}
 	}
 	
+	public void showPanel (String panelName)
+	{
+		cardlayout.show(contentPane, panelName);
+	}
+	
 	// END OF METHODS ================================================================================	====================
 	
 	public workoutTa() 
-	{
+	{	
+		cardlayout = new CardLayout();
+		
 		DefaultListModel<String> lName = new DefaultListModel<>();
 		DefaultListModel<String> lEmail = new DefaultListModel<>();
 		DefaultListModel<Long> lNum = new DefaultListModel<>();
@@ -1043,121 +1051,25 @@ public class workoutTa extends JFrame
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 475, 600);
-		contentPane = new JPanel();
+		contentPane = new JPanel(cardlayout);
 		contentPane.setBackground(new Color(128, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		REGISTER = new JPanel();
-		REGISTER.setBounds(10, 10, 1, 543);
-		contentPane.add(REGISTER);
-		REGISTER.setLayout(null);
+		//REGISTER CLASSES
+		REGISTER = new REGISTERPage(this); // Initialize the member variable REGISTER
+		REGISTER.setBounds(10, 10, 440, 543); // Set bounds to match other main panels
+		contentPane.add(REGISTER, "REGISTER_PANEL");
 		
-		lblNewLabel_4 = new JLabel("NAME");
-		lblNewLabel_4.setBounds(52, 43, 85, 13);
-		REGISTER.add(lblNewLabel_4);
+		//END OF REGISTER CLASS ============
 		
-		lblNewLabel_5 = new JLabel("EMAIL");
-		lblNewLabel_5.setBounds(52, 82, 85, 13);
-		REGISTER.add(lblNewLabel_5);
-		
-		lblNewLabel_7 = new JLabel("PASSWORD");
-		lblNewLabel_7.setBounds(37, 363, 75, 13);
-		REGISTER.add(lblNewLabel_7);
-		
-		lblNewLabel_8 = new JLabel("NUMBER");
-		lblNewLabel_8.setBounds(52, 125, 85, 13);
-		REGISTER.add(lblNewLabel_8);
-		
-		lblNewLabel_9 = new JLabel("BIRTHDAY");
-		lblNewLabel_9.setBounds(37, 171, 85, 13);
-		REGISTER.add(lblNewLabel_9);
-		
-		JRadioButton male = new JRadioButton("MALE");
-		buttonGroup.add(male);
-		male.setBounds(37, 309, 103, 21);
-		REGISTER.add(male);
-		
-		JRadioButton female = new JRadioButton("FEMALE");
-		buttonGroup.add(female);
-		female.setBounds(161, 309, 103, 21);
-		REGISTER.add(female);
-		
-		JLabel lblNewLabel_10 = new JLabel("GENDER");
-		lblNewLabel_10.setBounds(27, 289, 113, 13);
-		REGISTER.add(lblNewLabel_10);
-		
-		JButton registB1 = new JButton("REGISTER");
-		registB1.setBounds(147, 461, 117, 21);
-		REGISTER.add(registB1);
-		
-		JLabel lblNewLabel_11 = new JLabel("REGISTER");
-		lblNewLabel_11.setBounds(194, 10, 96, 13);
-		REGISTER.add(lblNewLabel_11);
-		
-		name = new JTextField();
-		name.setBounds(147, 40, 224, 19);
-		REGISTER.add(name);
-		name.setColumns(10);
-		
-		gmail = new JTextField();
-		gmail.setBounds(143, 79, 228, 19);
-		REGISTER.add(gmail);
-		gmail.setColumns(10);
-		
-		pNum = new JTextField();
-		pNum.setBounds(147, 121, 252, 19);
-		REGISTER.add(pNum);
-		pNum.setColumns(10);
-		
-		bday = new JTextField();
-		bday.setBounds(147, 167, 241, 19);
-		REGISTER.add(bday);
-		bday.setColumns(10);
-		
-		pass = new JPasswordField();
-		pass.setBounds(133, 359, 215, 20);
-		REGISTER.add(pass);
-		
-		JLabel errorNum = new JLabel("Please enter your input correctly.");
-		errorNum.setBounds(94, 443, 228, 14);
-		REGISTER.add(errorNum);
-		
-		logPage = new JButton("LOGIN PAGE");
-		logPage.setBounds(147, 493, 149, 23);
-		REGISTER.add(logPage);
-		
-		JLabel emailExists = new JLabel("EMAIL ALREADY EXISTS");
-		emailExists.setBounds(119, 429, 156, 14);
-		REGISTER.add(emailExists);
-		
-		JLabel lblNewLabel_9_1 = new JLabel("HEIGHT (Cm)");
-		lblNewLabel_9_1.setBounds(27, 209, 85, 13);
-		REGISTER.add(lblNewLabel_9_1);
-		
-		JLabel lblNewLabel_9_1_1 = new JLabel("WEIGHT (Kg)");
-		lblNewLabel_9_1_1.setBounds(27, 245, 85, 13);
-		REGISTER.add(lblNewLabel_9_1_1);
-		
-		heightCM = new JTextField();
-		heightCM.setColumns(10);
-		heightCM.setBounds(143, 205, 241, 19);
-		REGISTER.add(heightCM);
-		
-		weightKG = new JTextField();
-		weightKG.setColumns(10);
-		weightKG.setBounds(123, 241, 241, 19);
-		REGISTER.add(weightKG);
-		errorNum.setVisible(false);
-		emailExists.setVisible(false);
-		
-		// Register end ===============================================
+		//Setup for the classes page
 		
 		LOGIN = new JPanel();
-		LOGIN.setBounds(10, 10, 1, 543);
-		contentPane.add(LOGIN);
+		LOGIN.setBounds(10, 10, 439, 543);
+		contentPane.add(LOGIN, "LOGIN_PANEL");
 		LOGIN.setLayout(null);
 		
 		gmailL = new JTextField();
@@ -1197,7 +1109,7 @@ public class workoutTa extends JFrame
 		//Login page end ======================================================
 		
 		JPanel MENU = new JPanel();
-		MENU.setBounds(10, 10, 1, 543);
+		MENU.setBounds(10, 10, 439, 543);
 		contentPane.add(MENU);
 		MENU.setLayout(null);
 		
@@ -1276,7 +1188,7 @@ public class workoutTa extends JFrame
 		//Menu page end ========================================================
 		
 		HISTORY = new JPanel();
-		HISTORY.setBounds(10, 10, 1, 543);
+		HISTORY.setBounds(10, 10, 440, 543);
 		contentPane.add(HISTORY);
 		HISTORY.setLayout(null);
 		
@@ -1298,7 +1210,7 @@ public class workoutTa extends JFrame
 		// History page end ===============================================================
 		
 		JPanel ADD = new JPanel();
-		ADD.setBounds(10, 10, 440, 543);
+		ADD.setBounds(10, 10, 439, 543);
 		contentPane.add(ADD);
 		ADD.setLayout(null);
 		
@@ -1343,10 +1255,6 @@ public class workoutTa extends JFrame
 		aMessage.setColumns(10);
 		
 		JButton finishWorkout = new JButton("Finish Workout");
-		finishWorkout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		finishWorkout.setBounds(267, 499, 148, 21);
 		ADD.add(finishWorkout);
 		
@@ -1398,343 +1306,13 @@ public class workoutTa extends JFrame
 		
 		
 		
-		// REGISTRATION EVENTS====================================================================
-		
-		male.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-				tGender = 'M';
-				System.out.println("Male");
-			}
-		});
 
-		female.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-				tGender = 'F';
-				System.out.println("Female");
-			}
-		});
-		
-        name.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            private void updateLabel()  
-            {
-            	tName = name.getText();
-                // Do something with the text here
-                System.out.println("Name: " + tName);
-            }
-        });
-		
-        gmail.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            private void updateLabel()  
-            {
-            	tGmail = gmail.getText();
-                // Do something with the text here
-                System.out.println("Gmail: " + tGmail);
-            }
-        });
-        
-       	pNum.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) 
-            {
-                updateLong();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLong();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLong();
-            }
-
-            private long updateLong() {
-                String text = pNum.getText();
-                try {
-                    // Extract the first 11 digits from the input
-                    String first11Digits = text.substring(0, Math.min(text.length(), 11));
-
-                    Long number = Long.parseLong(first11Digits);
-
-                    // Store the parsed integer in studentPhoneNum
-                    tNumber = number;
-
-                    // Do something with the integer
-                    System.out.println("Integer: " + tNumber);
-                    realNum = true;
-                    System.out.println(realNum);
-
-                    return number; // Return the parsed integer
-                } catch (NumberFormatException ex) {
-                    // Handle the exception if the input is not a valid integer
-                    System.out.println("Invalid integer input: " + text);
-                    realNum = false;
-                    System.out.println(realNum);
-                    return 0; // Return a default value or handle the error appropriately
-                }
-            }
-        });
-       	
-       	weightKG.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) 
-            {
-                updateLong();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLong();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLong();
-            }
-
-            private long updateLong() {
-                String text = weightKG.getText();
-                try {
-                    // Extract the first 11 digits from the input
-                    String first11Digits = text.substring(0, Math.min(text.length(), 11));
-
-                    Long number = Long.parseLong(first11Digits);
-
-                    // Store the parsed integer in studentPhoneNum
-                    tWeightKG = number;
-
-                    // Do something with the integer
-                    System.out.println("Integer: " + tWeightKG);
-                    realNum = true;
-                    System.out.println(realNum);
-
-                    return number; // Return the parsed integer
-                } catch (NumberFormatException ex) {
-                    // Handle the exception if the input is not a valid integer
-                    System.out.println("Invalid integer input: " + text);
-                    realNum = false;
-                    System.out.println(realNum);
-                    return 0; // Return a default value or handle the error appropriately
-                }
-            }
-        });
-       	
-       	heightCM.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) 
-            {
-                updateLong();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLong();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLong();
-            }
-
-            private long updateLong() {
-                String text = heightCM.getText();
-                try {
-                    // Extract the first 11 digits from the input
-                    String first11Digits = text.substring(0, Math.min(text.length(), 11));
-
-                    Long number = Long.parseLong(first11Digits);
-
-                    // Store the parsed integer in studentPhoneNum
-                    tHeightCM = number;
-
-                    // Do something with the integer
-                    System.out.println("Integer: " + tHeightCM);
-                    realNum = true;
-                    System.out.println(realNum);
-
-                    return number; // Return the parsed integer
-                } catch (NumberFormatException ex) {
-                    // Handle the exception if the input is not a valid integer
-                    System.out.println("Invalid integer input: " + text);
-                    realNum = false;
-                    System.out.println(realNum);
-                    return 0; // Return a default value or handle the error appropriately
-                }
-            }
-        });
-       	
-        bday.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            private void updateLabel()  
-            {
-            	tBirthday = bday.getText();
-                // Do something with the text here
-                System.out.println("Bday: " + tBirthday);
-            }
-        });
-        
-        pass.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateLabel();
-            }
-
-            private void updateLabel()  
-            {
-                char[] passwordChar = pass.getPassword();
-                tPassword = String.valueOf(passwordChar);
-
-                // Do something with the password here
-                System.out.println("Password: " + tPassword);
-            }
-        });
-      
-		registB1.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				File accStore = new File(accountInfo);
-				if (tName.trim().isEmpty() || tGmail.trim().isEmpty() || tNumber == 0 || tGender == null || tBirthday.trim().isEmpty() || tHeightCM == 0 || tWeightKG == 0 || tPassword.trim().isEmpty())
-
-				{
-					errorNum.setVisible(true);
-				}
-				else
-				{
-					if (checkAccExists(tGmail))
-					{
-						emailExists.setVisible(true);
-						System.out.println("HAHAHAHAHAHAHA");
-					}
-					else
-					{
-						emailExists.setVisible(false);
-						if (realNum == true)
-						{
-							System.out.println("Hello");
-							REGISTER.setVisible(false);
-							LOGIN.setVisible(true);
-							
-							createAcc(tGmail);
-							createAccHist(tGmail);
-							
-							String cNum = Long.toString(tNumber);
-							String cWeight = Long.toString(tWeightKG);
-							String cHeight = Long.toString(tHeightCM);
-							String cGen = Character.toString(tGender);
-							
-							// Parameter (Name, gmail, number, gender, bday, pass, weight, height)
-							addUser(tName, tGmail, cNum, cGen, tBirthday, tPassword, cWeight, cHeight);
-							
-							name.setText("");
-							gmail.setText("");
-							pNum.setText("");
-							bday.setText("");
-							pass.setText("");
-							weightKG.setText("");
-							heightCM.setText("");
-							
-							tName = "";
-							tGmail = "";
-							tNumber = 0;
-							tBirthday = "";
-							tPassword = "";
-							tWeightKG = 0;
-							tHeightCM = 0;
-							
-	
-							errorNum.setVisible(false);
-						}
-						else
-						{
-							errorNum.setVisible(true);
-						}
-					}
-				}
-			}
-		});
 		
 		// REGISTER PAGE EVENTS FINISH ==================================================================================
 		
 		
 		
 		// LOGIN PAGE EVENTS START ================================================================
-		
-		logPage.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				REGISTER.setVisible(false);
-				LOGIN.setVisible(true);
-				
-				name.setText("");
-				gmail.setText("");
-				pNum.setText("");
-				bday.setText("");
-				pass.setText("");
-				weightKG.setText("");
-				heightCM.setText("");
-			}
-		});
 		
     	gmailL.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -1799,7 +1377,8 @@ public class workoutTa extends JFrame
 			}
 		});
     	
-		loginFrameB.addActionListener(new ActionListener() {
+		loginFrameB.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				if(checkLogin(tGmail, tPassword))
@@ -2135,6 +1714,15 @@ public class workoutTa extends JFrame
 				}
 			}
 		});
+		
+		addWorkout.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				
+			}
+		});
         
 		finishWorkout.addMouseListener(new MouseAdapter() 
 		{
@@ -2249,7 +1837,7 @@ public class workoutTa extends JFrame
 		
 		
 		
-		// HISTORY EVENTS
+		// HISTORY EVENTS ===========================================================================================
 		hBack.addMouseListener(new MouseAdapter() 
 		{
 			@Override
