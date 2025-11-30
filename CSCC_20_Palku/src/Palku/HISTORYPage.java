@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 public class HISTORYPage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JLabel lblNewLabel_20;
 
 	private workoutTa parentFrame;
 	
@@ -22,26 +24,24 @@ public class HISTORYPage extends JPanel {
 		this.parentFrame = parent;
 		
 		setLayout(null);
-		
-		HISTORY = new JPanel();
-		HISTORY.setBounds(10, 10, 440, 543);
-		contentPane.add(HISTORY);
-		HISTORY.setLayout(null);
+
+		this.setBounds(10, 10, 440, 543);
+
 		
 		lblNewLabel_20 = new JLabel("Workout History");
 		lblNewLabel_20.setBounds(167, 22, 202, 14);
-		HISTORY.add(lblNewLabel_20);
+		this.add(lblNewLabel_20);
 		
 		JScrollPane hHistory = new JScrollPane();
 		hHistory.setBounds(10, 47, 420, 485);
-		HISTORY.add(hHistory);
+		this.add(hHistory);
 		
 		JList histList = new JList();
 		hHistory.setViewportView(histList);
 		
 		JButton hBack = new JButton("Back");
 		hBack.setBounds(341, 11, 89, 23);
-		HISTORY.add(hBack);
+		this.add(hBack);
 		
 		
 		// HISTORY EVENTS ===========================================================================================

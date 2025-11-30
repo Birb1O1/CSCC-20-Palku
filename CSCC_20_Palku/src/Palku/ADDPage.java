@@ -52,6 +52,8 @@ public class ADDPage extends JPanel {
 	
     public boolean realNum = true;
     public boolean realNum1 = true;
+    
+    static public String currAcc = "";
 	
 	private workoutTa parentFrame;
 	
@@ -388,43 +390,8 @@ public class ADDPage extends JPanel {
 					 long qSpent = 0;
 					 long qLoan = 0;
 					 long qPayLoan = 0;
-					 
-					 if(tCategory.equalsIgnoreCase("Cash"))
-					 {
-						 lWeight.clear();
-						 System.out.println("tCash");
-						 
-						 qCash = parentFrame.addToCash(parentFrame.retrieveCurrAcc(), convert);
-						 
-						 qAmount = qCash;
-					 }
-					 else if(tCategory.equalsIgnoreCase("Spent"))
-					 {
-						 lHeight.clear();
-						 System.out.println("tCat");
-						 
-						 qSpent = parentFrame.addToSpent(parentFrame.retrieveCurrAcc(), convert);
-						 
-						 qAmount = qSpent;
-					 }
-					 else if(tCategory.equalsIgnoreCase("Loan"))
-					 {
-						 lGoal.clear();
-						 System.out.println("tLoan");
-						 
-						 qLoan = parentFrame.addToLoan(parentFrame.retrieveCurrAcc(), convert);
-						 
-						 qAmount = qLoan;
-					 }
-					 else if(tCategory.equalsIgnoreCase("Pay Loan"))
-					 {
-						 lGoal.clear();
-						 System.out.println("tPayloan");
-	
-						 qPayLoan = parentFrame.payLoan(parentFrame.retrieveCurrAcc(), convert);
-						 
-						 qAmount = qPayLoan;
-					 }
+
+
 					 
 					 String distribute = Long.toString(qAmount);
 					 // Date - Category - Workout - Sets - Reps - Message - Weight
@@ -434,30 +401,6 @@ public class ADDPage extends JPanel {
 					 parentFrame.addToHistory(parentFrame.retrieveCurrAcc(), combine);
 					 parentFrame.updateCheckCategory(parentFrame.retrieveCurrAcc(), tCategory, distribute);
 					 
-					 
-					 lWeight.clear();
-					 qCash = parentFrame.retrieveWeight(parentFrame.retrieveCurrAcc());
-					 lWeight.addElement(qCash);
-					 mWeight.setModel(lWeight);
-					 System.out.println(lWeight);
-					 
-					 lHeight.clear();
-					 qSpent = parentFrame.retrieveHeight(parentFrame.retrieveCurrAcc());
-					 lHeight.addElement(qSpent);
-					 mHeight.setModel(lHeight);
-					 System.out.println(lHeight);
-					 
-					 lGoal.clear();
-					 qLoan = parentFrame.retrieveGoal(parentFrame.retrieveCurrAcc());
-					 lGoal.addElement(qLoan);
-					 mGoal.setModel(lGoal);
-					 System.out.println(lGoal);
-					 
-					 lGoal.clear();
-					 qPayLoan = parentFrame.retrieveGoal(parentFrame.retrieveCurrAcc());
-					 lGoal.addElement(qPayLoan);
-					 mGoal.setModel(lGoal);
-					 System.out.println(lGoal);
 					 
 					 tDate = "";
 					 tCategory = "";

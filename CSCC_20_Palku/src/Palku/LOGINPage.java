@@ -19,6 +19,21 @@ public class LOGINPage extends JPanel {
 
 	private workoutTa parentFrame;
 	
+	private JPasswordField passL;
+	private JButton logPage;
+	private JLabel dIncor;
+	private JTextField gmailL;
+	private JLabel lblNewLabel_6;
+	
+	static public String tName = "";
+	static public String tGmail = "";
+	static public long tNumber = 0;
+	static public Character tGender = null;
+	static public String tBirthday = "";
+	static public String tPassword = "";
+	static public long tWeightKG = 0;
+	static public long tHeightCM = 0;
+	
 	public LOGINPage(workoutTa parent) 
 	{
 		this.parentFrame = parent;
@@ -29,36 +44,36 @@ public class LOGINPage extends JPanel {
 		
 		gmailL = new JTextField();
 		gmailL.setBounds(92, 137, 191, 20);
-		LOGIN.add(gmailL);
+		this.add(gmailL);
 		gmailL.setColumns(10);
 		
 		JButton loginFrameB = new JButton("LOGIN");
 		loginFrameB.setBounds(170, 270, 89, 23);
-		LOGIN.add(loginFrameB);
+		this.add(loginFrameB);
 		
 		JLabel lblNewLabel_12 = new JLabel("Email");
 		lblNewLabel_12.setBounds(86, 112, 46, 14);
-		LOGIN.add(lblNewLabel_12);
+		this.add(lblNewLabel_12);
 		
 		JLabel lblNewLabel_13 = new JLabel("Password");
 		lblNewLabel_13.setBounds(86, 165, 197, 24);
-		LOGIN.add(lblNewLabel_13);
+		this.add(lblNewLabel_13);
 		
 		JButton registB2 = new JButton("REGISTER PAGE");
 		registB2.setBounds(170, 304, 138, 23);
-		LOGIN.add(registB2);
+		this.add(registB2);
 		
 		passL = new JPasswordField();
 		passL.setBounds(92, 200, 191, 20);
-		LOGIN.add(passL);
+		this.add(passL);
 		
 		dIncor = new JLabel("DETAILS INCORRECT");
 		dIncor.setBounds(105, 245, 221, 14);
-		LOGIN.add(dIncor);
+		this.add(dIncor);
 		
 		lblNewLabel_6 = new JLabel("LOGIN PAGE");
 		lblNewLabel_6.setBounds(183, 51, 113, 14);
-		LOGIN.add(lblNewLabel_6);
+		this.add(lblNewLabel_6);
 		dIncor.setVisible(false);
 		
 		//Login page end ======================================================
@@ -135,14 +150,14 @@ public class LOGINPage extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(checkLogin(tGmail, tPassword))
+				if(parentFrame.checkLogin(tGmail, tPassword))
 				{
     				LOGIN.setVisible(false);
     				MENU.setVisible(true);
     				dIncor.setVisible(false);
     				
 					lName.clear();
-					String qName = retrieveName(tGmail);
+					String qName = parentFrame.retrieveName(tGmail);
 					lName.addElement(qName);
 					mName.setModel(lName);
 					
@@ -151,27 +166,27 @@ public class LOGINPage extends JPanel {
 					mEmail.setModel(lEmail);
 					
 					lNum.clear();
-					Long qNum = retrieveNum(tGmail);
+					Long qNum = parentFrame.retrieveNum(tGmail);
 					lNum.addElement(qNum);
 					mNum.setModel(lNum);
 
 					lBday.clear();
-					String qBday = retrieveBday(tGmail);
+					String qBday = parentFrame.retrieveBday(tGmail);
 					lBday.addElement(qBday);
 					mBday.setModel(lBday);
 					
 					lWeight.clear();
-					Long qWeight = retrieveWeight(tGmail);
+					Long qWeight = parentFrame.retrieveWeight(tGmail);
 					lWeight.addElement(qWeight);
 					mWeight.setModel(lWeight);
 					
 					lHeight.clear();
-					Long qHeight = retrieveHeight(tGmail);
+					Long qHeight = parentFrame.retrieveHeight(tGmail);
 					lHeight.addElement(qHeight);
 					mHeight.setModel(lHeight);
 					
 					lGoal.clear();
-					Long qGoal = retrieveGoal(tGmail);
+					Long qGoal = parentFrame.retrieveGoal(tGmail);
 					lGoal.addElement(qGoal);
 					mGoal.setModel(lGoal);
     				
