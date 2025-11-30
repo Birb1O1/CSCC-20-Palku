@@ -138,8 +138,7 @@ public class LOGINPage extends JPanel {
 		registB2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				REGISTER.setVisible(true);
-				LOGIN.setVisible(false);
+				parentFrame.showPanel("REGISTER_PANEL");
 				
 				gmailL.setText("");
 				passL.setText("");
@@ -152,8 +151,7 @@ public class LOGINPage extends JPanel {
 			{
 				if(parentFrame.checkLogin(tGmail, tPassword))
 				{
-    				LOGIN.setVisible(false);
-    				MENU.setVisible(true);
+					parentFrame.showPanel("MENU_PANEL");
     				dIncor.setVisible(false);
     				
 					lName.clear();

@@ -152,8 +152,7 @@ public class ADDPage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				 MENU.setVisible(true);
-				 ADD.setVisible(false);
+				 parentFrame.showPanel("MENU_PANEL");
 				 aCategory.setSelectedIndex(-1);
 			}
 		});
@@ -382,8 +381,7 @@ public class ADDPage extends JPanel {
 				 }
 				 else
 				 {
-					 MENU.setVisible(true);
-					 ADD.setVisible(false);
+					 parentFrame.showPanel("MENU_PANEL");
 					 
 					 String convert = Long.toString(tWeight);
 					 long qCash = 0;

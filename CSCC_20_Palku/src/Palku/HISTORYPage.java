@@ -50,8 +50,7 @@ public class HISTORYPage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				HISTORY.setVisible(false);
-				MENU.setVisible(true);
+				parentFrame.showPanel("MENU_PANEL");
 			}
 		});
 	}

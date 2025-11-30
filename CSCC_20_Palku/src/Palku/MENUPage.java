@@ -112,11 +112,7 @@ public class MENUPage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				REGISTER.setVisible(false);
-				LOGIN.setVisible(false);
-				MENU.setVisible(false);
-				HISTORY.setVisible(false);
-				ADD.setVisible(true);
+				parentFrame.showPanel("ADD_PANEL");
 			}
 		});
 		
@@ -127,13 +123,9 @@ public class MENUPage extends JPanel {
 			{
 				lHistory.clear();
 				
-				REGISTER.setVisible(false);
-				LOGIN.setVisible(false);
-				MENU.setVisible(false);
-				HISTORY.setVisible(true);
-				ADD.setVisible(false);
+				parentFrame.showPanel("HISTORY_PANEL");
 				
-				createHistFormat(currAcc);
+				parentFrame.createHistFormat(currAcc);
 				
 				histList.setModel(lHistory);
 			}
@@ -144,11 +136,7 @@ public class MENUPage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				REGISTER.setVisible(false);
-				LOGIN.setVisible(true);
-				MENU.setVisible(false);
-				HISTORY.setVisible(false);
-				ADD.setVisible(false);
+				parentFrame.showPanel("LOGIN_PANEL");
 				
 				lHistory.clear();
 				currAcc = "";

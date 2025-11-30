@@ -120,7 +120,10 @@ public class workoutTa extends JFrame
 	private JList mGoal;
 	private JLabel lblNewLabel_20;
 	
+	
 	static DefaultListModel<String> lHistory = new DefaultListModel<>();
+	
+	
 	private JTextField aSets;
 	private JTextField aReps;
 	private JTextField heightCM;
