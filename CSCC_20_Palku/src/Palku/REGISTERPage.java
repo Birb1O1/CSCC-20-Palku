@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+//Gwapo
+
 public class REGISTERPage extends JPanel {
 
 	private static final long serialVersionUID = 1L;

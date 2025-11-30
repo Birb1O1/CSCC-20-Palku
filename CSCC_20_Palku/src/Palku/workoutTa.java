@@ -1340,6 +1340,8 @@ public class workoutTa extends JFrame
             
         });
 		
+    	//Gwapo
+    	
         passL.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
